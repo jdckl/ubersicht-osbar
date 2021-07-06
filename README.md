@@ -1,4 +1,4 @@
-# ubersicht-simplebar
+# ubersicht-osbar
 
 Simple status bar for [Übersicht](http://tracesof.net/uebersicht/)  
 Requires [yabai](https://github.com/koekeishiya/yabai) and ifstat.
