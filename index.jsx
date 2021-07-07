@@ -1,7 +1,7 @@
 import { run } from "uebersicht";
-import { container, basicBox, separator, volume } from "./lib/styles";
+import { container, basicBox, separator, weatherIcon } from "./lib/styles";
 
-export const refreshFrequency = 5500;
+export const refreshFrequency = 6000;
 
 export const command = async (dispatch) => {
   const [
@@ -12,21 +12,23 @@ export const command = async (dispatch) => {
     net,
     space,
     time,
-    volume
+    volume,
+    weather
   ] = await Promise.all([
-    run("bash viobar/scripts/app.sh"),
-    run("bash viobar/scripts/battery.sh"),
-    run("bash viobar/scripts/cpu.sh"),
-    run("bash viobar/scripts/memory.sh"),
-    run("bash viobar/scripts/net.sh"),
-    run("bash viobar/scripts/space.sh"),
-    run("bash viobar/scripts/time.sh"),
-    run("bash viobar/scripts/volume.sh"),
+    run("bash ubersicht-osbar/scripts/app.sh"),
+    run("bash ubersicht-osbar/scripts/battery.sh"),
+    run("bash ubersicht-osbar/scripts/cpu.sh"),
+    run("bash ubersicht-osbar/scripts/memory.sh"),
+    run("bash ubersicht-osbar/scripts/net.sh"),
+    run("bash ubersicht-osbar/scripts/space.sh"),
+    run("bash ubersicht-osbar/scripts/time.sh"),
+    run("bash ubersicht-osbar/scripts/volume.sh"),
+    run("bash ubersicht-osbar/scripts/weather.sh"),
   ]);
 
   dispatch({
     type: "UPDATE",
-    data: {app, battery, cpu, memory, net, space, time, volume},
+    data: {app, battery, cpu, memory, net, space, time, volume, weather},
   });
 };
 
@@ -65,6 +67,11 @@ export const render = (data) => (
 
     <div className={basicBox.juice}>
       {data.battery}%
+    </div>
+
+    <div className={basicBox.weather}>
+      <img className={weatherIcon} src={'http://openweathermap.org/img/w/' + JSON.parse(data.weather)[1] + '.png'}></img>
+      {Math.trunc(parseFloat(JSON.parse(data.weather)[0]))}°C
     </div>
 
     <div className={basicBox.dark}>
