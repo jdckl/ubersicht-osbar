@@ -1,7 +1,13 @@
 import { run } from "uebersicht";
-import { container, basicBox, separator, weatherIcon } from "./lib/styles";
+import { 
+  container, 
+  basicBox, 
+  separator, 
+  weatherIcon, 
+  weatherContainer
+} from "./lib/styles";
 
-export const refreshFrequency = 6000;
+export const refreshFrequency = 5000;
 
 export const command = async (dispatch) => {
   const [
@@ -47,9 +53,14 @@ export const render = (data) => (
     <div className={basicBox.neon}>
       {data.space}
     </div>
-    <div className={basicBox.simple}>
-      {data.app ? data.app : '--'}
-    </div>
+
+    { data.app ? 
+      <div className={basicBox.simple}>
+        {data.app}
+      </div> 
+      : 
+      ''
+    }
 
       <div className={separator}></div>
 
@@ -58,20 +69,28 @@ export const render = (data) => (
     </div>
 
     <div className={basicBox.cpu}>
-      {data.cpu}%
+      <span>{parseInt(data.cpu)}</span>
     </div>
 
     <div className={basicBox.mem}>
-      {data.memory}%
+      <span>{parseInt(data.memory)}</span>
     </div>
 
     <div className={basicBox.juice}>
-      {data.battery}%
+      <span>{data.battery}</span>
     </div>
 
     <div className={basicBox.weather}>
-      <img className={weatherIcon} src={'http://openweathermap.org/img/w/' + JSON.parse(data.weather)[1] + '.png'}></img>
-      {Math.trunc(parseFloat(JSON.parse(data.weather)[0]))}°C
+      {JSON.parse(data.weather).length > 0 ? 
+        <div className={weatherContainer}>
+          <img className={weatherIcon} src={'http://openweathermap.org/img/w/' + JSON.parse(data.weather)[1] + '.png'} />
+          {Math.trunc(parseFloat(JSON.parse(data.weather)[0]))}°
+        </div> 
+        : 
+        <div className={weatherContainer}>
+          <span>...</span>
+        </div>
+      }
     </div>
 
     <div className={basicBox.dark}>
