@@ -81,7 +81,7 @@ export const render = (data) => (
     </div>
 
     <div className={basicBox.weather}>
-      {(JSON.parse(data.weather).length > 0 && !isNaN(parseFloat(JSON.parse(data.weather)[0]))) ?
+      {(data.weather !== undefined && JSON.parse(data.weather).length > 0 && !isNaN(parseFloat(JSON.parse(data.weather)[0]))) ?
         <div className={weatherContainer}>
           <img className={weatherIcon} src={'http://openweathermap.org/img/w/' + JSON.parse(data.weather)[1] + '.png'} />
           {Math.trunc(parseFloat(JSON.parse(data.weather)[0]))}°
